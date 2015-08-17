@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TEST FOR BSON</title>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="//rawgit.com/mongodb/js-bson/master/browser_build/bson.js"></script>
+<script src="//rawgit.com/henrya/js-jquery/master/BinaryTransport/jquery.binarytransport.js"></script>
+</head>
+
+<body>
+    <h1>TEST FOR BSON</h1>
+    <script>
+        $(document).ready(function() {
+           console.log("hihi");
+           $.ajaxSetup ({
+               cache: false
+           });
+           $.ajax({
+               url: 'http://localhost:8080/bson',
+               dataType: "binary",
+               processData: false
+           })
+             .done(function(data) {
+               console.log("result");
+               console.log(data);
+               var BSON = bson().BSON;
+               var reader = new FileReader();
+               var data2;
+               reader.onload  = function() {
+                   uint8Array  = new Uint8Array(this.result);
+                   data2 = BSON.deserialize(uint8Array);
+                   console.log("data2");
+                   console.log(data2);
+               };
+               reader.readAsArrayBuffer(data);
+//               var data2 = BSON.deserialize(data);
+//               console.log("data2");
+//               console.log(data2);
+             });
+        });
+    </script>
+</body>
+</html>
